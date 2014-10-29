@@ -395,12 +395,51 @@ Fixpoint double (n:nat) :=
   | O => O
   | S n' => S (S (double n'))
   end.
+(*
+double (S (S (S O)))
+=> S (S (double (S (S O))))
+=> S (S (S (S (double (S O)))))
+=> S (S (S (S (S (S (double O))))))
+=> S (S (S (S (S (S (O))))))
+*)
+
 
 (** Use induction to prove this simple fact about [double]: *)
 
 Lemma double_plus : forall n, double n = n + n .
+intros n.
+(*n : nat
+______________________________________(1/1)
+double n = n + n*)
+induction n as [| n'].
+(*_____________________________________(1/2)
+double 0 = 0 + 0
+______________________________________(2/2)
+double (S n') = S n' + S n'*)
+Case "n=0" .
+reflexivity.
+(*n' : nat
+IHn' : double n' = n' + n'
+______________________________________(1/1)
+double (S n') = S n' + S n'*)
+Case "n=S n ' ".
+(*Case := "n=S n ' " : String.string
+n' : nat
+IHn' : double n' = n' + n'
+______________________________________(1/1)
+double (S n') = S n' + S n'*)
+simpl.
+(*S (S (double n')) = S (n' + S n')*)
+rewrite IHn'.
+(*S (S (n' + n')) = S (n' + S n')*)
+ rewrite plus_n_Sm.
+(*S (n' + S n') = S (n' + S n')*)
+reflexivity.
 Proof.  
-  (* FILL IN HERE *) Admitted.
+    
+
+
+
 (** [] *)
 
 
@@ -438,6 +477,7 @@ Proof.
     Case "Proof of assertion". reflexivity.
   rewrite -> H.
   reflexivity.  Qed.
+
 
 (** The [assert] tactic introduces two sub-goals.  The first is
     the assertion itself; by prefixing it with [H:] we name the
@@ -593,8 +633,34 @@ problem using the theorem no matter which way we state it. *)
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
 Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+  intros n.
+  induction n as [| n'].
+(*2 subgoals
+______________________________________(1/2)
+true = beq_nat 0 0
+______________________________________(2/2)
+true = beq_nat (S n') (S n')*)
+  Case "n=0".
+    reflexivity.
+(*1 subgoal
+n' : nat
+IHn' : true = beq_nat n' n'
+______________________________________(1/1)
+true = beq_nat (S n') (S n')*)
+  Case "n= S n' ".
+(*Case := "n= S n' " : String.string
+n' : nat
+IHn' : true = beq_nat n' n'
+______________________________________(1/1)
+true = beq_nat (S n') (S n')*)
+    simpl.
+(*true = beq_nat n' n'*)
+  rewrite IHn'.
+(*beq_nat n' n' = beq_nat n' n'*)
+  reflexivity.
+Qed.
+
+
 
 (** **** Exercise: 2 stars, optional (plus_swap')  *)
 (** The [replace] tactic allows you to specify a particular subterm to
