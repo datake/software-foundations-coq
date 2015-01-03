@@ -382,9 +382,8 @@ Qed.
 
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
-Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+Proof. intros n m p. induction n as [| n']. reflexivity.
+  simpl. rewrite ->IHn'. reflexivity. Qed.
 
 (** **** Exercise: 2 stars (double_plus)  *)
 
@@ -555,10 +554,11 @@ Proof.
 
 (** Prove the following simple fact: *)
 
-Theorem evenb_n__oddb_Sn : forall n : nat,
+(*Theorem evenb_n__oddb_Sn : forall n : nat,
   evenb n = negb (evenb (S n)).
 Proof.
-  (* FILL IN HERE *) Admitted.
+   FILL IN HERE  Admitted.
+*)
 (** [] *)
 
 (* ###################################################################### *)

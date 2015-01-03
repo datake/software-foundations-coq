@@ -43,9 +43,9 @@ Require Export Basics.
     library (just for the concrete syntax of quoted strings) and the
     [Ltac] command, which allows us to declare custom tactics.  Kudos
     to Aaron Bohannon for this nice hack! *)
-
+(*
 Require String. Open Scope string_scope.
-
+*)
 Ltac move_to_top x :=
   match reverse goal with
   | H : _ |- _ => try move x after H
@@ -382,9 +382,8 @@ Qed.
 
 Theorem plus_assoc : forall n m p : nat,
   n + (m + p) = (n + m) + p.
-Proof.
-  (* FILL IN HERE *) Admitted.
-(** [] *)
+Proof. intros n m p. induction n as [| n']. reflexivity.
+  simpl. rewrite ->IHn'. reflexivity. Qed.
 
 (** **** Exercise: 2 stars (double_plus)  *)
 
@@ -555,10 +554,11 @@ Proof.
 
 (** Prove the following simple fact: *)
 
-Theorem evenb_n__oddb_Sn : forall n : nat,
+(*Theorem evenb_n__oddb_Sn : forall n : nat,
   evenb n = negb (evenb (S n)).
 Proof.
-  (* FILL IN HERE *) Admitted.
+   FILL IN HERE  Admitted.
+*)
 (** [] *)
 
 (* ###################################################################### *)
